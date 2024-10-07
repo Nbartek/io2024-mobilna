@@ -30,7 +30,8 @@ class MainActivity : ComponentActivity() {
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     Text(
             text = "Zaczynamy projekt $name!\n" +
-                    "Na razie tylko test githuba, czyty projekt startowy",
+                    "Na razie tylko test githuba, czyty projekt startowy" +
+                    "A to jest zmiana dla której ustawiam branch i pull request",
             modifier = modifier
     )
 }
