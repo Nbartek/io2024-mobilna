@@ -49,7 +49,11 @@ android {
 }
 
 dependencies {
-
+//    CAMERAX_VERSION = “1.2.3”
+//
+//    implementation(androidx.camera:camera-camera2:$CAMERAX_VERSION)
+//    implementation(androidx.camera:camera-lifecycle:$CAMERAX_VERSION)
+//    implementation(androidx.camera:camera-view:$CAMERAX_VERSION)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

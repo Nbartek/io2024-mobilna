@@ -14,4 +14,9 @@
     <string name="error_password">"Błedne hasło"</string>
     <string name="error_login">"Błedny login"</string>
     <string name="title_activity_skaner">SkanerActivity</string>
+<!--    Skaner -->
+    <string name="skan_text_btn">Skan</string>
+    <string name="licznik_ladunke">Ładunek</string>
+    <string name="licznik_kolejka">Zakolejkowano</string>
+    <string name="exit_scan">Powrót</string>
 </resources>

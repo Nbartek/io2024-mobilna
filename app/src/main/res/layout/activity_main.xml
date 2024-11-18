@@ -3,16 +3,102 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/kremowy_niebieski">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Login"
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="642dp"
+        android:src="@drawable/placeholder_camera"
+        android:layout_height="474dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499" />
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/placeholder_camera" />
+
+    <Button
+        android:id="@+id/skan_btn"
+        android:layout_width="168dp"
+        android:layout_height="157dp"
+        android:background="@drawable/btn_skan"
+        android:text="@string/skan_text_btn"
+        android:textColor="@color/kremowy_niebieski"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.275"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintVertical_bias="0.56" />
+
+    <TextView
+        android:id="@+id/cargo_text"
+        android:layout_width="70dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/licznik_ladunke"
+        android:textAlignment="textEnd"
+        android:textColor="@color/niebieski"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.953"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+    <TextView
+        android:id="@+id/queue_text"
+        android:layout_width="111dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="12dp"
+        android:text="@string/licznik_kolejka"
+        android:textAlignment="textEnd"
+        android:textColor="@color/niebieski"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintVertical_bias="0.343" />
+
+    <TextView
+        android:id="@+id/cargo_counter"
+        android:layout_width="69dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="7dp"
+        android:background="@drawable/border"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cargo_text"
+        app:layout_constraintVertical_bias="0.016" />
+
+    <TextView
+        android:id="@+id/queue_counter"
+        android:layout_width="68dp"
+        android:layout_height="33dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/border"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/queue_text"
+        app:layout_constraintVertical_bias="0.112" />
+
+    <Button
+        android:id="@+id/back_btn"
+        android:layout_width="63dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/ciemno_niebieski"
+        android:text="@string/exit_scan"
+        android:textColor="@color/kremowy_niebieski"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cargo_text"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
