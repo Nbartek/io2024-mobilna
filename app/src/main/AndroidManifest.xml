@@ -6,12 +6,18 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/poczta_ic"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:resizeableActivity="false"
+        android:roundIcon="@mipmap/poczta_ic_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Qr_scan_app"
         tools:targetApi="31">
+        <activity
+            android:name=".SkanerActivity"
+            android:exported="false"
+            android:label="@string/title_activity_skaner"
+            android:theme="@style/Theme.Qr_scan_app" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
