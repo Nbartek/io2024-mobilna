@@ -29,7 +29,9 @@ class MainActivity : ComponentActivity() {
                 e_login.setTextColor(getColor(R.color.jasny_niebieski))
             }
             else{
-            startActivity(Intent(this,SkanerActivity::class.java))
+                val inte = Intent(this,SkanerActivity::class.java)
+                //val inte = Intent(this,CameraTest::class.java)
+            startActivity(inte)
             }
         }
 
