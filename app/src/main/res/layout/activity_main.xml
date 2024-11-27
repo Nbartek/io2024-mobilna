@@ -6,9 +6,9 @@
     android:layout_height="match_parent"
     android:background="@color/kremowy_niebieski">
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="642dp"
+    <androidx.camera.view.PreviewView
+        android:id="@+id/viewFinder"
+        android:layout_width="match_parent"
         android:src="@drawable/placeholder_camera"
         android:layout_height="474dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -28,10 +28,10 @@
         android:textColor="@color/kremowy_niebieski"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.275"
+        app:layout_constraintHorizontal_bias="0.329"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.56" />
+        app:layout_constraintTop_toBottomOf="@+id/viewFinder"
+        app:layout_constraintVertical_bias="0.45" />
 
     <TextView
         android:id="@+id/cargo_text"
@@ -44,7 +44,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.953"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/viewFinder" />
 
     <TextView
         android:id="@+id/queue_text"
@@ -57,7 +57,7 @@
         android:textColor="@color/niebieski"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/viewFinder"
         app:layout_constraintVertical_bias="0.343" />
 
     <TextView
@@ -86,19 +86,4 @@
         app:layout_constraintTop_toBottomOf="@+id/queue_text"
         app:layout_constraintVertical_bias="0.112" />
 
-    <Button
-        android:id="@+id/back_btn"
-        android:layout_width="63dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/ciemno_niebieski"
-        android:text="@string/exit_scan"
-        android:textColor="@color/kremowy_niebieski"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cargo_text"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
