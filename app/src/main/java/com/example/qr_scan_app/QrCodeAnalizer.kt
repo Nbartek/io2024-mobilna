@@ -5,10 +5,23 @@ import android.util.Log
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import com.google.zxing.BarcodeFormat
+import com.google.zxing.BinaryBitmap
 import com.google.zxing.DecodeHintType
 import com.google.zxing.MultiFormatReader
+import com.google.zxing.NotFoundException
+import com.google.zxing.PlanarYUVLuminanceSource
+import com.google.zxing.common.HybridBinarizer
+import java.nio.ByteBuffer
 
-class QrCodeAnalizer:ImageAnalysis.Analyzer {
+private fun ByteBuffer.toByteArray():ByteArray{
+    rewind()
+    val data = ByteArray(remaining())
+    get(data)
+    return data
+}
+class QrCodeAnalizer(
+    private val onQrCodesDetected: (qrCode: com.google.zxing.Result) -> Unit
+):ImageAnalysis.Analyzer {
     //Image Reader używa formatu YuV
     private val yuvFormats = mutableListOf(YUV_420_888)
 
@@ -17,6 +30,15 @@ class QrCodeAnalizer:ImageAnalysis.Analyzer {
             yuvFormats.addAll(listOf(YUV_422_888, YUV_444_888))
         }
     }
+
+    //Dekodowanie
+    private val reader = MultiFormatReader().apply {
+        val map = mapOf(
+            DecodeHintType.POSSIBLE_FORMATS to arrayListOf(BarcodeFormat.QR_CODE) //specyfikacja dekodowania kodu qr
+        )
+        setHints(map)
+    }
+
     override fun analyze(image: ImageProxy) {
         // We are using YUV format because, ImageProxy internally uses ImageReader to get the image
         // by default ImageReader uses YUV format unless changed.
@@ -27,12 +49,30 @@ class QrCodeAnalizer:ImageAnalysis.Analyzer {
             Log.e("QRCodeAnalyzer", "Expected YUV, now = ${image.format}")
             return
         }
-    }
-    //Dekodowanie
-    private val reader = MultiFormatReader().apply {
-        val map = mapOf(
-            DecodeHintType.POSSIBLE_FORMATS to arrayListOf(BarcodeFormat.QR_CODE)
+        val data = image.planes[0].buffer.toByteArray()
+        //podświetla dla komputera
+        val source = PlanarYUVLuminanceSource(
+            data,
+            image.width,
+            image.height,
+            0,
+            0,
+            image.width,
+            image.height,
+            false
         )
-        setHints(map)
+        //z source towrzymy binarną mapę by Reader zdekodował qr
+        val binaryBitmap = BinaryBitmap(HybridBinarizer(source))
+        try{
+            //jak nie odczyta kodu, wywala NoFoundExeption(dobrze)
+            val result =reader.decode(binaryBitmap)
+            onQrCodesDetected(result)
+            Log.d("Analiza qr",result.text)
+        }catch(e: NotFoundException){
+            e.printStackTrace()
+        }
+        image.close()
     }
+
+    ///pobieramy wartości y z obrazu
 }
