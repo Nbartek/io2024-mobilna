@@ -22,6 +22,7 @@ import androidx.camera.core.Preview
 import androidx.camera.core.CameraSelector
 import android.util.Log
 import android.util.Size
+import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageCaptureException
@@ -114,22 +115,23 @@ class SkanerActivity : ComponentActivity() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
 
         cameraProviderFuture.addListener({
-            // Used to bind the lifecycle of cameras to the lifecycle owner
+            // Powiąż cykl życiowy(lifecycle) kamery z cyklem użytkownika
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
             //kod qr
+            val labelka = viewBinding.root.findViewById<TextView>(R.id.skanCode)
             val imageAnalysis = ImageAnalysis.Builder()
-//                .setTargetResolution(Size(previewView.width, previewView.height))
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .build()
                 .also {
                     it.setAnalyzer(cameraExecutor, QrCodeAnalizer { qrResult ->
                         viewBinding.root.post {
-                            Log.d("QRCodeAnalyzer", "Barcode scanned: ${qrResult.text}")
+                            Log.d("Analiza kodu qr", "Kod zeskanowany: ${qrResult.text}")
+                            labelka.text = qrResult.text
                             finish()
                         }
                     })
                 }
-            // Preview
+            // Podgląd
             val preview = Preview.Builder()
                 .build()
                 .also {
@@ -137,14 +139,14 @@ class SkanerActivity : ComponentActivity() {
                 }
             imageCapture = ImageCapture.Builder().build()
 
-            // Select back camera as a default
+            // Której kamery używamy
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
             try {
-                // Unbind use cases before rebinding
+                // odłączamy kamerę od innych powiążanych procesów
                 cameraProvider.unbindAll()
 
-                // Bind use cases to camera
+                // Powiąż z aparatem kolejno , cykl życia użytkownika, który aparat, podgląd, analiza_kodów
                 cameraProvider.bindToLifecycle(
                     this, cameraSelector, preview,imageAnalysis)
 
@@ -173,7 +175,7 @@ class SkanerActivity : ComponentActivity() {
         registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions())
         { permissions ->
-            // Handle Permission granted/rejected
+            // Zarządzanie (nie)przyznanymi pozwoleniami
             var permissionGranted = true
             permissions.entries.forEach {
                 if (it.key in REQUIRED_PERMISSIONS && it.value == false)
@@ -181,7 +183,7 @@ class SkanerActivity : ComponentActivity() {
             }
             if (!permissionGranted) {
                 Toast.makeText(baseContext,
-                    "Permission request denied",
+                    "Nie dano pozwoleń",
                     Toast.LENGTH_SHORT).show()
             } else {
                 startCamera()
@@ -189,7 +191,7 @@ class SkanerActivity : ComponentActivity() {
         }
 
     companion object {
-        private const val TAG = "CameraXApp"
+        private const val TAG = "Skaner Poczty"
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
         private val REQUIRED_PERMISSIONS =
             mutableListOf (

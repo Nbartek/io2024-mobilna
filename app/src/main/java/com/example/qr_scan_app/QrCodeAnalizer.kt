@@ -38,19 +38,19 @@ class QrCodeAnalizer(
         )
         setHints(map)
     }
-
+    // We are using YUV format because, ImageProxy internally uses ImageReader to get the image
+    // by default ImageReader uses YUV format unless changed.
+    //Z tutoriala, może kiedyś się pryzdać
+    // https://developer.android.com/reference/androidx/camera/core/ImageProxy.html#getImage()
+    // https://developer.android.com/reference/android/media/Image.html#getFormat()
+    //funkcja do analizy
     override fun analyze(image: ImageProxy) {
-        // We are using YUV format because, ImageProxy internally uses ImageReader to get the image
-        // by default ImageReader uses YUV format unless changed.
-        //Z tutoriala, może kiedyś się pryzdać
-        // https://developer.android.com/reference/androidx/camera/core/ImageProxy.html#getImage()
-        // https://developer.android.com/reference/android/media/Image.html#getFormat()
         if (image.format !in yuvFormats) {
             Log.e("QRCodeAnalyzer", "Expected YUV, now = ${image.format}")
             return
         }
         val data = image.planes[0].buffer.toByteArray()
-        //podświetla dla komputera
+        //podświetla dla komputera, nie w preview
         val source = PlanarYUVLuminanceSource(
             data,
             image.width,
@@ -68,11 +68,10 @@ class QrCodeAnalizer(
             val result =reader.decode(binaryBitmap)
             onQrCodesDetected(result)
             Log.d("Analiza qr",result.text)
+
         }catch(e: NotFoundException){
             e.printStackTrace()
         }
-        image.close()
+        //image.close()
     }
-
-    ///pobieramy wartości y z obrazu
 }

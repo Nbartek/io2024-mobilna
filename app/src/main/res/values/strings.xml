@@ -20,4 +20,5 @@
     <string name="licznik_kolejka">Zakolejkowano</string>
     <string name="exit_scan">Powrót</string>
     <string name="title_activity_camera_test">CameraTest</string>
+    <string name="zeskanowany_kod">Nie zeskanowano jescze kodu</string>
 </resources>

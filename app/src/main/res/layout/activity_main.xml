@@ -9,8 +9,8 @@
     <androidx.camera.view.PreviewView
         android:id="@+id/viewFinder"
         android:layout_width="match_parent"
-        android:src="@drawable/placeholder_camera"
         android:layout_height="474dp"
+        android:src="@drawable/placeholder_camera"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
@@ -28,37 +28,23 @@
         android:textColor="@color/kremowy_niebieski"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.329"
+        app:layout_constraintHorizontal_bias="0.271"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewFinder"
-        app:layout_constraintVertical_bias="0.45" />
+        app:layout_constraintVertical_bias="0.76" />
 
     <TextView
         android:id="@+id/cargo_text"
         android:layout_width="70dp"
         android:layout_height="27dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="76dp"
         android:text="@string/licznik_ladunke"
         android:textAlignment="textEnd"
         android:textColor="@color/niebieski"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.953"
+        app:layout_constraintHorizontal_bias="0.92"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewFinder" />
-
-    <TextView
-        android:id="@+id/queue_text"
-        android:layout_width="111dp"
-        android:layout_height="23dp"
-        android:layout_marginTop="7dp"
-        android:layout_marginEnd="12dp"
-        android:text="@string/licznik_kolejka"
-        android:textAlignment="textEnd"
-        android:textColor="@color/niebieski"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewFinder"
-        app:layout_constraintVertical_bias="0.343" />
 
     <TextView
         android:id="@+id/cargo_counter"
@@ -69,21 +55,68 @@
         android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintHorizontal_bias="0.918"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cargo_text"
-        app:layout_constraintVertical_bias="0.016" />
+        app:layout_constraintVertical_bias="0.043" />
 
     <TextView
         android:id="@+id/queue_counter"
         android:layout_width="68dp"
         android:layout_height="33dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="24dp"
         android:background="@drawable/border"
         android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/queue_text"
-        app:layout_constraintVertical_bias="0.112" />
+        app:layout_constraintVertical_bias="0.282" />
+
+    <TextView
+        android:id="@+id/queue_text"
+        android:layout_width="111dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="20dp"
+        android:text="@string/licznik_kolejka"
+        android:textAlignment="textEnd"
+        android:textColor="@color/niebieski"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewFinder"
+        app:layout_constraintVertical_bias="0.651" />
+
+    <TextView
+        android:id="@+id/scanedText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="34dp"
+        android:layout_marginBottom="23dp"
+        android:text="Skan: "
+        android:textColor="@color/niebieski"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/skan_btn"
+        app:layout_constraintEnd_toStartOf="@+id/skanCode"
+        app:layout_constraintHorizontal_bias="0.673"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewFinder"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/skanCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="34dp"
+        android:layout_marginBottom="23dp"
+        android:background="@drawable/border"
+        android:padding="5dp"
+        android:text="@string/zeskanowany_kod"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/skan_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.825"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewFinder"
+        app:layout_constraintVertical_bias="0.8" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
