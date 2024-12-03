@@ -72,6 +72,6 @@ class QrCodeAnalizer(
         }catch(e: NotFoundException){
             e.printStackTrace()
         }
-        //image.close()
+        image.close()
     }
 }
