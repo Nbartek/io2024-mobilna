@@ -26,10 +26,9 @@ import com.example.qr_scan_app.databinding.ActivityMainBinding
 import java.nio.ByteBuffer
 import java.text.SimpleDateFormat
 import java.util.Locale
-
 class SkanerActivity : ComponentActivity() {
     private lateinit var viewBinding: ActivityMainBinding
-
+    private var TAG = "SkanerActivity";
     private var imageCapture: ImageCapture? = null
     private lateinit var  labelka:TextView
     private lateinit var cameraExecutor: ExecutorService
@@ -53,11 +52,16 @@ class SkanerActivity : ComponentActivity() {
     }
 
     private fun sendSkan() {
-        if (labelka.text !=R.string.zeskanowany_kod.toString()){
-            Toast.makeText(baseContext,"Wysłano do bazy",Toast.LENGTH_SHORT).show()
-            labelka.text = R.string.zeskanowany_kod.toString()
+        cameraExecutor.execute {
+            val imageCapture = imageCapture ?: return@execute
+            val skan = labelka.text.toString()
+            if (skan.length!=10||skan.toBigDecimalOrNull()==null) {
+                runOnUiThread {
+                    Toast.makeText(baseContext, "Wprowadzono nieprawidłowy format \n$skan", Toast.LENGTH_SHORT).show()
+                    labelka.text ="";
+                }
+            }
         }
-        TODO("Połączenie z bazą")
     }
 
     private fun startCamera() {
@@ -74,8 +78,8 @@ class SkanerActivity : ComponentActivity() {
                 .also {
                     it.setAnalyzer(cameraExecutor, QrCodeAnalizer { qrResult ->
                         viewBinding.root.post {
-                            Log.d("Analiza kodu qr", "Kod zeskanowany: ${qrResult.text}")
                             if(labelka.text != qrResult.text){
+                            Log.i(TAG+"Analiza kodu qr", "Kod zeskanowany: ${qrResult.text}")
                                 labelka.text = qrResult.text
                             }
                             //finish()
@@ -120,6 +124,7 @@ class SkanerActivity : ComponentActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        Log.d(TAG, "Activity destroyed.")
         cameraExecutor.shutdown()
     }
     private val activityResultLauncher =

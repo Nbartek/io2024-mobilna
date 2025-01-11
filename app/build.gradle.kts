@@ -6,6 +6,7 @@ plugins {
 
 android {
     namespace = "com.example.qr_scan_app"
+    //Na stacjonarce jestem na 33
     compileSdk = 34
 
     defaultConfig {
@@ -49,7 +50,7 @@ android {
 }
 
 dependencies {
-    val camerax_version = "1.4.0"
+    val camerax_version = "1.4.1"
     val zxin_version = "3.5.3"
 
     implementation("androidx.camera:camera-core:${camerax_version}")
