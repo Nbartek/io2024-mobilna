@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dbAdress">jdbc:sqlserver://io-poczta.database.windows.net:1433;database=PocztaDB;trustServerCertificate=false;
+        hostNameInCertificate=*.database.windows.net;loginTimeout=30;</string>
+    <string name="dbDriver">com.microsoft.sqlserver.jdbc.SQLServerDriver</string>
+</resources>

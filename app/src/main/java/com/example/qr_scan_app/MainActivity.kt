@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.ComponentActivity
+import org.jetbrains.exposed.sql.*
 
 
 class MainActivity : ComponentActivity() {
@@ -21,14 +22,16 @@ class MainActivity : ComponentActivity() {
         button_login.setOnClickListener{
             login_text= findViewById<EditText>(R.id.username).text.toString()
             password_text = findViewById<EditText>(R.id.password).text.toString()
-            if(login_text.length<=5){
+            if(!login_text.toString().contains(Regex("[A-z]{6}[0-9]{3}"))){
                 e_login.setTextColor(getColor(R.color.czerwony_blad))
                 e_password.setTextColor(getColor(R.color.jasny_niebieski))
-            }else if(password_text.length<=5){
+            }else if(password_text.length<=6){
                 e_password.setTextColor(getColor(R.color.czerwony_blad))
                 e_login.setTextColor(getColor(R.color.jasny_niebieski))
             }
             else{
+                Database.connect("io-poczta.database.windows.net")
+                ///TODO implementacja loginu i połączenia z bazą danych
                 val inte = Intent(this,SkanerActivity::class.java)
                 //val inte = Intent(this,CameraTest::class.java)
             startActivity(inte)
