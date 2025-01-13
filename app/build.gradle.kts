@@ -50,6 +50,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.activity)
     val camerax_version = "1.4.1"
     val zxin_version = "3.5.3"
     val exposedVersion: String by project
@@ -63,14 +64,15 @@ dependencies {
     //Qr code api
     implementation("com.google.zxing:core:${zxin_version}")
     //Database api
-    implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
-    implementation("org.jetbrains.exposed:exposed-crypt:$exposedVersion")
-    implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
-    implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
-    implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
-    implementation("org.jetbrains.exposed:exposed-json:$exposedVersion")
+    implementation(libs.exposed.core)
+    implementation(libs.exposed.crypt)
+    implementation(libs.exposed.dao)
+    implementation(libs.exposed.jdbc)
+    implementation(libs.exposed.java.time)
+    implementation(libs.exposed.json)
     //Sql api
     implementation(libs.mssql.jdbc)
+    implementation (libs.jtds)
     //Standard api's
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

@@ -31,13 +31,14 @@ class SkanerActivity : ComponentActivity() {
     private var TAG = "SkanerActivity";
     private var imageCapture: ImageCapture? = null
     private lateinit var  labelka:TextView
+
     private lateinit var cameraExecutor: ExecutorService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
-
+        val modeParam = intent.getIntExtra("sqlInputMode",0)
         // Request camera permissions
         if (allPermissionsGranted()) {
             startCamera()

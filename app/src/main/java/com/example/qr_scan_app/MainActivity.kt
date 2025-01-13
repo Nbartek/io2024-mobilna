@@ -7,6 +7,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.ComponentActivity
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import org.jetbrains.exposed.sql.*
 
 
@@ -19,22 +21,33 @@ class MainActivity : ComponentActivity() {
         var password_text:String
         val e_login = findViewById<TextView>(R.id.error_login)
         val e_password = findViewById<TextView>(R.id.error_password)
+        val e_connect = findViewById<TextView>(R.id.login_failed)
         button_login.setOnClickListener{
             login_text= findViewById<EditText>(R.id.username).text.toString()
             password_text = findViewById<EditText>(R.id.password).text.toString()
-            if(!login_text.toString().contains(Regex("[A-z]{6}[0-9]{3}"))){
+            if(!true){
+            // if(!login_text.contains(Regex("[a-zA-Z]{6}[0-9]{2}"))){
                 e_login.setTextColor(getColor(R.color.czerwony_blad))
+                e_connect.setTextColor(getColor(R.color.jasny_niebieski))
                 e_password.setTextColor(getColor(R.color.jasny_niebieski))
             }else if(password_text.length<=6){
                 e_password.setTextColor(getColor(R.color.czerwony_blad))
                 e_login.setTextColor(getColor(R.color.jasny_niebieski))
+                e_connect.setTextColor(getColor(R.color.jasny_niebieski))
             }
             else{
-                Database.connect("io-poczta.database.windows.net")
-                ///TODO implementacja loginu i połączenia z bazą danych
-                val inte = Intent(this,SkanerActivity::class.java)
-                //val inte = Intent(this,CameraTest::class.java)
-            startActivity(inte)
+                val db = dbConnection(login_text,password_text)
+                val inte = Intent(this,MenuActivity::class.java)
+                lifecycleScope.launch {
+                    if(db.isConnected()){
+                        startActivity(inte);
+                    }else{
+                        e_password.setTextColor(getColor(R.color.jasny_niebieski))
+                        e_login.setTextColor(getColor(R.color.jasny_niebieski))
+                        e_connect.setTextColor(getColor(R.color.czerwony_blad))
+                    }
+                }
+
             }
         }
 

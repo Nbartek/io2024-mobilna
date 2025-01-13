@@ -14,6 +14,7 @@
     <string name="error_password">"Błedne hasło"</string>
     <string name="error_login">"Błedny login"</string>
     <string name="title_activity_skaner">SkanerActivity</string>
+    <string name="db_error">Nie udało się zalogować na serwer</string>
     <!--    Skaner -->
     <string name="skan_text_btn">Skan</string>
     <string name="licznik_ladunke">Ładunek</string>
@@ -21,4 +22,11 @@
     <string name="exit_scan">Powrót</string>
     <string name="title_activity_camera_test">CameraTest</string>
     <string name="zeskanowany_kod">Nie zeskanowano jescze kodu</string>
+    <!--    Menu-->
+    <string name="rozlS">1. Skan rozładunkowy</string>
+    <string name="zalS">2. Skan załadunkowy</string>
+    <string name="zmienStan">4. Zgłoszenie uszkodzenia paczki</string>
+    <string name="Podglad">3. Podgląd ładunku</string>
+    <string name="wylog">Wyloguj się</string>
+    <string name="wer">5. Weryfikacja ładunku</string>
 </resources>
