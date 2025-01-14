@@ -71,7 +71,8 @@ dependencies {
     implementation(libs.exposed.java.time)
     implementation(libs.exposed.json)
     //Sql api
-    implementation(libs.mssql.jdbc)
+//    implementation(libs.mssql.jdbc)
+    implementation("com.microsoft.sqlserver:mssql-jdbc:12.8.1.jre11")
     implementation (libs.jtds)
     //Standard api's
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")

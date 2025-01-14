@@ -1,5 +1,6 @@
 package com.example.qr_scan_app
 
+import DatabaseHelper
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -26,8 +27,7 @@ class MainActivity : ComponentActivity() {
         button_login.setOnClickListener{
             login_text= findViewById<EditText>(R.id.username).text.toString()
             password_text = findViewById<EditText>(R.id.password).text.toString()
-            if(!true){
-//             if(!login_text.contains(Regex("^[a-zA-Z]{6}[0-9]{2}$"))){
+             if(!login_text.contains(Regex("^[a-zA-Z]{6}[0-9]{2}$"))){
                 e_login.setTextColor(getColor(R.color.czerwony_blad))
                 e_connect.setTextColor(getColor(R.color.jasny_niebieski))
                 e_password.setTextColor(getColor(R.color.jasny_niebieski))
@@ -38,8 +38,9 @@ class MainActivity : ComponentActivity() {
                 startActivity(inte)
             }
             else{
-                val db = dbConnection(login_text,password_text)
+                val db = DatabaseHelper(login_text,password_text)
                 lifecycleScope.launch {
+
                     if(db.isConnected()){
                         startActivity(inte);
                     }else{
