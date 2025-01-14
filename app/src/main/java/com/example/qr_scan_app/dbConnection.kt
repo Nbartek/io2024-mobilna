@@ -10,13 +10,14 @@ import org.jetbrains.exposed.sql.vendors.DatabaseDialect
 import org.jetbrains.exposed.sql.Transaction
 import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.vendors.currentDialect
 
 class dbConnection constructor(login:String, password:String/*nie wiem czy w tym się to przechowywuje*/) {
     private var log = login;
     private var pasw =password
     private val dbConn: Database by lazy {
-        val dbConnectMS = "jdbc:sqlserver://io-poczta.database.windows.net:1433;database=PocztaDB;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
-        val dbConnectjTDS = "jdbc:jtds:sqlserver://io-poczta.database.windows.net:1433/PocztaDB;ssl=require"
+        val dbConnectMS = "jdbc:sqlserver://io-poczta.database.windows.net:1433;database=PocztaDB;integratedSecurity=true;encrypt=true;trustServerCertificate=true;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
+        val dbConnectjTDS = "jdbc:jtds:sqlserver://io-poczta.database.windows.net:1433/PocztaDB;ssl=request;"
         val dbDriverMs = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
         val dbDriverjTDS = "net.sourceforge.jtds.jdbc.Driver"
         Database.connect(
@@ -27,7 +28,6 @@ class dbConnection constructor(login:String, password:String/*nie wiem czy w tym
             user = login,
             password = password
             //Jeśli bierzemy jTDS
-            //,databaseConfig = DatabaseConfig{SQLServerDialect}
         )
     }
     suspend fun isConnected(): Boolean {

@@ -22,11 +22,12 @@ class MainActivity : ComponentActivity() {
         val e_login = findViewById<TextView>(R.id.error_login)
         val e_password = findViewById<TextView>(R.id.error_password)
         val e_connect = findViewById<TextView>(R.id.login_failed)
+        val inte = Intent(this,MenuActivity::class.java)
         button_login.setOnClickListener{
             login_text= findViewById<EditText>(R.id.username).text.toString()
             password_text = findViewById<EditText>(R.id.password).text.toString()
             if(!true){
-            // if(!login_text.contains(Regex("[a-zA-Z]{6}[0-9]{2}"))){
+//             if(!login_text.contains(Regex("^[a-zA-Z]{6}[0-9]{2}$"))){
                 e_login.setTextColor(getColor(R.color.czerwony_blad))
                 e_connect.setTextColor(getColor(R.color.jasny_niebieski))
                 e_password.setTextColor(getColor(R.color.jasny_niebieski))
@@ -34,10 +35,10 @@ class MainActivity : ComponentActivity() {
                 e_password.setTextColor(getColor(R.color.czerwony_blad))
                 e_login.setTextColor(getColor(R.color.jasny_niebieski))
                 e_connect.setTextColor(getColor(R.color.jasny_niebieski))
+                startActivity(inte)
             }
             else{
                 val db = dbConnection(login_text,password_text)
-                val inte = Intent(this,MenuActivity::class.java)
                 lifecycleScope.launch {
                     if(db.isConnected()){
                         startActivity(inte);
