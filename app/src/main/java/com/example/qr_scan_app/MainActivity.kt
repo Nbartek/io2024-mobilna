@@ -27,6 +27,10 @@ class MainActivity : ComponentActivity() {
         button_login.setOnClickListener{
             login_text= findViewById<EditText>(R.id.username).text.toString()
             password_text = findViewById<EditText>(R.id.password).text.toString()
+            //Do testów
+            val dbt = DatabaseHelper("stebat10","Stebat@10");
+            startActivity(inte)
+            //
              if(!login_text.contains(Regex("^[a-zA-Z]{6}[0-9]{2}$"))){
                 e_login.setTextColor(getColor(R.color.czerwony_blad))
                 e_connect.setTextColor(getColor(R.color.jasny_niebieski))
@@ -35,7 +39,6 @@ class MainActivity : ComponentActivity() {
                 e_password.setTextColor(getColor(R.color.czerwony_blad))
                 e_login.setTextColor(getColor(R.color.jasny_niebieski))
                 e_connect.setTextColor(getColor(R.color.jasny_niebieski))
-                startActivity(inte)
             }
             else{
                 val db = DatabaseHelper(login_text,password_text)

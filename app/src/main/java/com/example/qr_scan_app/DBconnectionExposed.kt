@@ -4,17 +4,11 @@ import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.DatabaseConfig
-import org.jetbrains.exposed.sql.vendors.SQLServerDialect
-import org.jetbrains.exposed.sql.vendors.DatabaseDialect
-import org.jetbrains.exposed.sql.Transaction
 import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.vendors.VendorDialect
-import org.jetbrains.exposed.sql.vendors.currentDialect
 
 //Trzeba odejść z Exposed
-class dbConnection constructor(login:String, password:String/*nie wiem czy w tym się to przechowywuje*/) {
+class DBconnectionExposed constructor(login:String, password:String/*nie wiem czy w tym się to przechowywuje*/) {
     private var log = login;
     private var pasw =password
     private val dbConn: Database by lazy {

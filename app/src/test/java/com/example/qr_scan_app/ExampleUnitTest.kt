@@ -1,7 +1,5 @@
 package com.example.qr_scan_app
 
-import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.transactions.transaction
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
@@ -23,7 +21,7 @@ class ExampleUnitTest {
     }
     @Test
     fun testDb() = runTest{
-        val result = dbConnection("test","test")
+        val result = DBconnectionExposed("test","test")
         assertFalse(result.isConnected())
     }
 }

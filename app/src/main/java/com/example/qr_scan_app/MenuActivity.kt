@@ -42,7 +42,7 @@ class MenuActivity : AppCompatActivity() {
             startActivity(inte)
         }
         btn_wylog.setOnClickListener{
-            dbConnection("","")
+            DBconnectionExposed("","")
              inte = Intent(this,MainActivity::class.java)
             startActivity(inte)
 
