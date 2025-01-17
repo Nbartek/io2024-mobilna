@@ -37,5 +37,10 @@ class TablePreviewActivity : AppCompatActivity() {
         recyclerView.adapter = userAdapter
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        finish()
+    }
+
 
 }

@@ -6,5 +6,7 @@ object ActiveUser {
     private lateinit var nazwisko:String
     fun setUser(name:String,surname:String){
 ///TODO zrobic obiekt z danymi urzytkownika
+        this.nazwisko = surname
+        this.imie = name
     }
 }

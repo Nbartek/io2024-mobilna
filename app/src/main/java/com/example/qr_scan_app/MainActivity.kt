@@ -45,6 +45,7 @@ class MainActivity : ComponentActivity() {
                 lifecycleScope.launch {
 
                     if(db.isConnected()){
+
                         startActivity(inte);
                     }else{
                         e_password.setTextColor(getColor(R.color.jasny_niebieski))

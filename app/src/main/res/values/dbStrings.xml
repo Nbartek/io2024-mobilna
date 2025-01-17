@@ -2,8 +2,5 @@
 <resources>
     <string name="dbAdress">jdbc:sqlserver://io-poczta.database.windows.net:1433;database=PocztaDB</string>
     <string name="dbDriver">com.microsoft.sqlserver.jdbc.SQLServerDriver</string>
-    jdbc:sqlserver://io-poczta.database.windows.net:1433;database=PocztaDB;
-    user=kubaadmin@io-poczta;password={your_password_here};
-    encrypt=true;trustServerCertificate=false;
-    hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+    <string name="checkConnection"><![CDATA[SELECT 1]]></string>
 </resources>
