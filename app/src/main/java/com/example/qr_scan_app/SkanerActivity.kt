@@ -1,5 +1,6 @@
 package com.example.qr_scan_app
 
+import DatabaseHelper
 import android.Manifest
 import android.content.ContentValues
 import android.content.pm.PackageManager
@@ -22,23 +23,30 @@ import androidx.activity.ComponentActivity
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageCaptureException
 import androidx.core.content.PermissionChecker
+import androidx.lifecycle.lifecycleScope
 import com.example.qr_scan_app.databinding.ActivityMainBinding
+import kotlinx.coroutines.launch
 import java.nio.ByteBuffer
 import java.text.SimpleDateFormat
+import java.util.LinkedList
 import java.util.Locale
 class SkanerActivity : ComponentActivity() {
     private lateinit var viewBinding: ActivityMainBinding
     private var TAG = "SkanerActivity";
     private var imageCapture: ImageCapture? = null
     private lateinit var  labelka:TextView
+    private lateinit var zakolejkowane:MutableList<Int>
+    private lateinit var zaladowano:TextView
+    private lateinit var licznik_kolejka:TextView
 
+    val db = DatabaseHelper()
     private lateinit var cameraExecutor: ExecutorService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
-        val modeParam = intent.getIntExtra("sqlInputMode",0)
+
         // Request camera permissions
         if (allPermissionsGranted()) {
             startCamera()
@@ -49,10 +57,14 @@ class SkanerActivity : ComponentActivity() {
         // Set up the listeners for take photo and video capture buttons
         viewBinding.skanBtn.setOnClickListener { sendSkan() }
         labelka = viewBinding.root.findViewById<TextView>(R.id.skanCode)
+         zakolejkowane = LinkedList<Int>()
+        zaladowano = viewBinding.root.findViewById<TextView>(R.id.cargo_counter)
+        licznik_kolejka = viewBinding.root.findViewById(R.id.queue_counter)
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
 
     private fun sendSkan() {
+        val modeParam = intent.getIntExtra("sqlInputMode",0)
         cameraExecutor.execute {
             val imageCapture = imageCapture ?: return@execute
             val skan = labelka.text.toString()
@@ -61,7 +73,47 @@ class SkanerActivity : ComponentActivity() {
                     Toast.makeText(baseContext, "Wprowadzono nieprawidłowy format \n$skan", Toast.LENGTH_SHORT).show()
                     labelka.text ="";
                 }
+            }else{
+                lifecycleScope.launch {
+                    when(modeParam){
+
+                        //Utawianie zniszczonej
+                        -1 ->{
+                            val query:String = "UPDATE dbo.Paczki SET czyZniszczona=1 WHERE Id_Paczki = ${skan};"
+                            if(db.executeUpdate(query)==0){
+                                runOnUiThread{
+                                    Toast.makeText(baseContext, "Nie powiodło się", Toast.LENGTH_SHORT).show()
+                                    labelka.text ="";
+                                }
+                            }else{
+                                runOnUiThread{
+                                    Toast.makeText(baseContext, "Status pakunku zmieniono dla: \n$skan", Toast.LENGTH_SHORT).show()
+                                    labelka.text ="";
+
+                                }
+                            }
+                            finish()
+                        }
+                        ///TODO przetestuj sql przed odpalaniem, zrobić ladunke trzeba
+                        //Rozpoczenie rozladunku
+                        1 ->{
+//                            val query:String = "UPDATE dbo.Paczki SET Status='Przyjęto na Magazyn' WHERE Id_Paczki = ${skan};"
+//                            if(db.executeUpdate(query)==0){
+//                                zakolejkowane.add(skan.toInt())
+//                                var licznik = licznik_kolejka.text.toString().toInt()+1
+//                                licznik_kolejka.setText((licznik))
+//                            }else{
+//                                zaladowano.setText( zaladowano.text.toString().toInt()+1)
+//                            }
+                        }
+                        //Zaladunke
+                        0->{
+                            //val query:String = "UPDATE dbo.Paczki SET czyZniszczona=1 WHERE Id_Paczki = ${skan};"
+                        }
+                    }
+                }
             }
+
         }
     }
 

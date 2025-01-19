@@ -29,4 +29,7 @@
     <string name="Podglad">3. Podgląd ładunku</string>
     <string name="wylog">Wyloguj się</string>
     <string name="wer">5. Weryfikacja ładunku</string>
+<!--    Spis paczek-->
+    <string name="licz_pacz">Identyfikator paczki</string>
+    <string name="status">Status</string>
 </resources>

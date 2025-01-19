@@ -1,12 +1,12 @@
 package com.example.qr_scan_app
 
-//Singielton obiekt dla zalogowanego urzytkownika
-object ActiveUser {
+object CurrentLoad {
     private lateinit var imie:String
     private lateinit var nazwisko:String
     private lateinit var login:String
     private lateinit var password:String
     fun setUser(name:String,surname:String,login:String,pass:String){
+///TODO przystosować do ladunku
         this.nazwisko = surname
         this.imie = name
         this.password =pass

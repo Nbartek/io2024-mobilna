@@ -18,6 +18,8 @@ class MenuActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        val usr = ActiveUser
+        supportActionBar?.title = "Zalogowano: ${usr.getName()} ${usr.getSurname()}"
         val btn_zaladSkan = findViewById<Button>(R.id.zaladunek)
         val btn_rozladSkan = findViewById<Button>(R.id.rozladunke)
         val btn_uszkodzon = findViewById<Button>(R.id.stanPaczki)
@@ -26,19 +28,22 @@ class MenuActivity : AppCompatActivity() {
         val btn_podglad = findViewById<Button>(R.id.podglad)
         var inte = Intent(this,SkanerActivity::class.java)
         btn_zaladSkan.setOnClickListener{
-            inte.putExtra("sqlInputMode",1)
+            inte = Intent(this,SkanerActivity::class.java)
+            inte.putExtra("sqlInputMode",0)//skanowanie
             startActivity(inte)
         }
         btn_rozladSkan.setOnClickListener{
-            inte.putExtra("sqlInputMode",1)
+            inte = Intent(this,SkanerActivity::class.java)
+            inte.putExtra("sqlInputMode",1)//rozladnowanie
             startActivity(inte)
         }
         btn_podglad.setOnClickListener{
-            inte = Intent(this,TablePreviewActivity::class.java)
+            inte = Intent(this,TablePreviewActivity::class.java)//podglad
             startActivity(inte)
         }
         btn_uszkodzon.setOnClickListener{
-            inte.putExtra("sqlInputMode",-1)
+            inte = Intent(this,SkanerActivity::class.java)
+            inte.putExtra("sqlInputMode",-1)//uszkodzeni paczek
             startActivity(inte)
         }
         btn_wylog.setOnClickListener{

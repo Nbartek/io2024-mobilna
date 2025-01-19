@@ -1,13 +1,18 @@
 package com.example.qr_scan_app
 
+import DatabaseHelper
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class TablePreviewActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -23,20 +28,34 @@ class TablePreviewActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val userList = listOf(
-            Pair("Jan","Kronos"),
-            Pair("Foran","nos"),
-            Pair("Koran","ja"),
-            Pair("Gaz","uuuu"),
-            Pair("Franz","fsdgsgf"),
-            Pair("Fortran","sfdsf")
-        )
-        // Setting up the adapter and layout manager
-        userAdapter = RecycleAdapter(userList)
-        recyclerView.layoutManager = LinearLayoutManager(this) // Use GridLayoutManager for a grid
-        recyclerView.adapter = userAdapter
-    }
+        val db = DatabaseHelper()
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                // Fetch data from the database
+                val result = db.executeQuery("SELECT Id_Paczki, Status, czyZniszczona FROM dbo.Paczki")
 
+                // Switch to Main thread to update UI
+                withContext(Dispatchers.Main) {
+                    // Set up RecyclerView adapter with fetched data
+                    userAdapter = RecycleAdapter(result ?: emptyList())
+                    recyclerView.layoutManager = LinearLayoutManager(this@TablePreviewActivity)
+                    recyclerView.adapter = userAdapter
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                withContext(Dispatchers.Main) {
+                    // Handle any errors here, e.g., show a Toast
+                    showError("Failed to load data")
+                }
+            }
+        }
+
+        // Setting up the adapter and layout manager
+    }
+    private fun showError(message: String) {
+        // Show an error message (e.g., a Toast or Snackbar)
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    }
     override fun onDestroy() {
         super.onDestroy()
         finish()

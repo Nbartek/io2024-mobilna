@@ -27,21 +27,24 @@ class MainActivity : ComponentActivity() {
         button_login.setOnClickListener{
             login_text= findViewById<EditText>(R.id.username).text.toString()
             password_text = findViewById<EditText>(R.id.password).text.toString()
-            //Do testów
-            val dbt = DatabaseHelper("stebat10","Stebat@10");
-            startActivity(inte)
-            //
-             if(!login_text.contains(Regex("^[a-zA-Z]{6}[0-9]{2}$"))){
+            if(false)
+//             if(!login_text.contains(Regex("^[a-zA-Z]{6}[0-9]{2}$")))
+             {
                 e_login.setTextColor(getColor(R.color.czerwony_blad))
                 e_connect.setTextColor(getColor(R.color.jasny_niebieski))
                 e_password.setTextColor(getColor(R.color.jasny_niebieski))
-            }else if(password_text.length<=6){
+            }
+            else if(false)
+            //else if(password_text.length<=6)
+            {
                 e_password.setTextColor(getColor(R.color.czerwony_blad))
                 e_login.setTextColor(getColor(R.color.jasny_niebieski))
                 e_connect.setTextColor(getColor(R.color.jasny_niebieski))
             }
             else{
-                val db = DatabaseHelper(login_text,password_text)
+//                Do testów
+                 val db = DatabaseHelper("stebat10","Stebat@10");
+//                val db = DatabaseHelper(login_text,password_text)
                 lifecycleScope.launch {
 
                     if(db.isConnected()){

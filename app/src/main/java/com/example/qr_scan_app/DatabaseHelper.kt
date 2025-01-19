@@ -5,7 +5,7 @@ import java.sql.ResultSet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class DatabaseHelper constructor(private val login: String, password:String) {
+class DatabaseHelper constructor(private val login: String, private val password:String) {
 
     private val dbConnectjTDS = "jdbc:jtds:sqlserver://io-poczta.database.windows.net:1433/PocztaDB;ssl=request;"
     private val dbDriverjTDS = "net.sourceforge.jtds.jdbc.Driver"
@@ -19,15 +19,37 @@ class DatabaseHelper constructor(private val login: String, password:String) {
             null
         }
     }
+    companion object {
+        private var lastLogin: String = ""
+        private var lastPassword: String = ""
+
+        // Constructor using last credentials
+        operator fun invoke(): DatabaseHelper {
+            if (lastLogin.isEmpty() || lastPassword.isEmpty()) {
+                throw IllegalStateException("No previous login and password available. Please provide credentials initially.")
+            }
+            return DatabaseHelper(lastLogin, lastPassword)
+        }
+
+        operator fun invoke(login: String, password: String): DatabaseHelper {
+            lastLogin = login
+            lastPassword = password
+            return DatabaseHelper(login, password)
+        }
+    }
     suspend fun isConnected():Boolean{
         return withContext(Dispatchers.IO){
             connection
-            //val re = executeQuery("SELECT Imię,Nazwisko from dbo.Pracownicy WHERE [login] = '$login'")
-            val re = executeQuery("Select 1")
+            invoke(login,password)
+            val re = executeQuery("SELECT Imię,Nazwisko from dbo.Pracownicy WHERE [login] = '$login'")
+            //val re = executeQuery("Select 1")
             if(re.isNullOrEmpty()){
                   false
             }
-            else true
+            else{
+                ActiveUser.setUser(re?.get(0)?.getValue("Imię").toString(),re?.get(0)?.getValue("Nazwisko").toString(),login,password )
+                true
+            }
         }
     }
     // Execute a query (e.g., SELECT)
