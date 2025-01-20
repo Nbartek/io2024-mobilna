@@ -51,18 +51,30 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="@string/zmienStan" />
+
         <Button
             android:id="@+id/wer"
-            android:layout_marginBottom="20dp"
-            android:background="@color/niebieski"
-            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@color/niebieski"
             android:text="@string/wer" />
+
+        <TextView
+            android:id="@+id/ladunekId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textColor="@color/ciemno_niebieski"
+            android:text="@string/infoLadunek" />
+
         <Button
             android:id="@+id/wylog"
             android:layout_marginBottom="20dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="60dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/czerwony_blad"

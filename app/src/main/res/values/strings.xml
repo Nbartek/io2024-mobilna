@@ -26,9 +26,10 @@
     <string name="rozlS">1. Skan rozładunkowy</string>
     <string name="zalS">2. Skan załadunkowy</string>
     <string name="zmienStan">4. Zgłoszenie uszkodzenia paczki</string>
-    <string name="Podglad">3. Podgląd ładunku</string>
+    <string name="Podglad">3. Podgląd magazynu</string>
     <string name="wylog">Wyloguj się</string>
-    <string name="wer">5. Weryfikacja ładunku</string>
+    <string name="wer">5. Podgląd ładunku</string>
+    <string name="infoLadunek">Nie ma aktywnego ładunku</string>
     <!--    Spis paczek-->
     <string name="licz_pacz">Identyfikator paczki</string>
     <string name="status">Status</string>
@@ -39,5 +40,6 @@
     <string name="pytanie_Otw">Czy otworzyć ładunek dla paczki?</string>
     <string name="pytanie_Stw">Czy stworzyć ładunek?</string>
     <string name="ostrzerzenie_Stw">Nie istnieje ładunek\n w któym znajduje się paczka:\n </string>
+
 
 </resources>

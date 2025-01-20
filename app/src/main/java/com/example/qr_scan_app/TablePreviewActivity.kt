@@ -1,6 +1,7 @@
 package com.example.qr_scan_app
 
 import DatabaseHelper
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -32,7 +33,24 @@ class TablePreviewActivity : AppCompatActivity() {
         lifecycleScope.launch(Dispatchers.IO) {
             try {
                 // Fetch data from the database
-                val result = db.executeQuery("SELECT Id_Paczki, Status, czyZniszczona FROM dbo.Paczki")
+                val mode  = intent.getIntExtra("ladunek",0)
+                var result: List<Map<String, Any>>?
+                if(mode==0){
+                 result = db.executeQuery("SELECT Id_Paczki, Status, czyZniszczona FROM dbo.Paczki")
+                }else{
+                    result = db.executeQuery("SELECT \n" +
+                            "    p.Id_Paczki, \n" +
+                            "    p.Status, \n" +
+                            "    p.czyZniszczona\n" +
+                            "FROM \n" +
+                            "    dbo.Paczki p\n" +
+                            "JOIN \n" +
+                            "    dbo.Paczka_Ladunek l\n" +
+                            "ON \n" +
+                            "    p.Id_Paczki = l.Id_Paczki\n" +
+                            "WHERE \n" +
+                            "    l.Id_Ladunku = ${CurrentLoad.getID()};")
+                }
 
                 // Switch to Main thread to update UI
                 withContext(Dispatchers.Main) {

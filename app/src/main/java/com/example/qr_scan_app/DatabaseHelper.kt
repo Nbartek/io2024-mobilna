@@ -52,35 +52,52 @@ class DatabaseHelper constructor(private val login: String, private val password
             }
         }
     }
-    // Execute a query (e.g., SELECT)
-    suspend fun executeQuery(query: String): List<Map<String, Any>>? {
+    suspend fun executeQuery(query: String, params: List<Any> = emptyList()): List<Map<String, Any>>? {
         return withContext(Dispatchers.IO) {
             val resultList = mutableListOf<Map<String, Any>>()
-
-            connection?.use { conn ->
-                val statement = conn.createStatement()
-                val resultSet = statement.executeQuery(query)
-                while (resultSet.next()) {
+            try {
+                val preparedStatement = connection?.prepareStatement(query)
+                params.forEachIndexed { index, param ->
+                    preparedStatement?.setObject(index + 1, param)
+                }
+                val resultSet = preparedStatement?.executeQuery()
+                while (resultSet?.next() == true) {
                     val row = mutableMapOf<String, Any>()
                     for (i in 1..resultSet.metaData.columnCount) {
                         row[resultSet.metaData.getColumnName(i)] = resultSet.getObject(i)
                     }
                     resultList.add(row)
                 }
+                preparedStatement?.close()
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
             resultList
         }
     }
 
-    // Execute an update (e.g., INSERT, UPDATE, DELETE)
-    suspend fun executeUpdate(query: String): Int? {
+    suspend fun executeUpdate(query: String, params: List<Any> = emptyList()): Int {
         return withContext(Dispatchers.IO) {
             var rowsAffected = 0
-            connection?.use { conn ->
-                val statement = conn.createStatement()
-                rowsAffected = statement.executeUpdate(query)
+            try {
+                val preparedStatement = connection?.prepareStatement(query)
+                params.forEachIndexed { index, param ->
+                    preparedStatement?.setObject(index + 1, param)
+                }
+                rowsAffected = preparedStatement?.executeUpdate() ?: 0
+                preparedStatement?.close()
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
             rowsAffected
+        }
+    }
+
+    fun closeConnection() {
+        try {
+            connection?.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 }

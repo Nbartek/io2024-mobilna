@@ -1,8 +1,12 @@
 package com.example.qr_scan_app
 
+import DatabaseHelper
 import android.content.Intent
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -26,7 +30,10 @@ class MenuActivity : AppCompatActivity() {
         val btn_weryfi = findViewById<Button>(R.id.wer)
         val btn_wylog = findViewById<Button>(R.id.wylog)
         val btn_podglad = findViewById<Button>(R.id.podglad)
+        val infoId = findViewById<TextView>(R.id.ladunekId)
         var inte = Intent(this,SkanerActivity::class.java)
+
+
         btn_zaladSkan.setOnClickListener{
             inte = Intent(this,SkanerActivity::class.java)
             inte.putExtra("sqlInputMode",0)//skanowanie
@@ -48,12 +55,31 @@ class MenuActivity : AppCompatActivity() {
         }
         btn_wylog.setOnClickListener{
             DBconnectionExposed("","")
+            CurrentLoad.clear()
              inte = Intent(this,MainActivity::class.java)
+            DatabaseHelper().closeConnection()
             startActivity(inte)
 
         }
         btn_weryfi.setOnClickListener{
-
+            inte = Intent(this,TablePreviewActivity::class.java)//podglad
+            inte.putExtra("ladunek",1)
+            startActivity(inte)
         }
+        val timer = object : CountDownTimer(3600000, 1000) { // 100000 seconds, tick every 1 second
+            override fun onTick(millisUntilFinished: Long) {
+                // Update the UI with the remaining time
+                if(CurrentLoad.getID()!=-1){
+                    infoId.text = "Ładunek numer: ${CurrentLoad.getID()}"
+                }
+            }
+
+            override fun onFinish() {
+                // Handle when the timer finishes
+                btn_wylog.performClick()
+            }
+        }
+        timer.start()
     }
+
 }

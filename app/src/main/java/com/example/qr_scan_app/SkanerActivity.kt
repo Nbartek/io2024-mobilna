@@ -3,6 +3,7 @@ package com.example.qr_scan_app
 import DatabaseHelper
 import android.Manifest
 import android.content.ContentValues
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -38,7 +39,8 @@ class SkanerActivity : ComponentActivity() {
     private lateinit var zakolejkowane:MutableList<Int>
     private lateinit var zaladowano:TextView
     private lateinit var licznik_kolejka:TextView
-
+    private var ladunek:MutableList<Int> = mutableListOf<Int>()
+    private val load = CurrentLoad
     val db = DatabaseHelper()
     private lateinit var cameraExecutor: ExecutorService
 
@@ -74,44 +76,167 @@ class SkanerActivity : ComponentActivity() {
                     labelka.text ="";
                 }
             }else{
-                lifecycleScope.launch {
                     when(modeParam){
 
                         //Utawianie zniszczonej
+
                         -1 ->{
                             val query:String = "UPDATE dbo.Paczki SET czyZniszczona=1 WHERE Id_Paczki = ${skan};"
-                            if(db.executeUpdate(query)==0){
-                                runOnUiThread{
-                                    Toast.makeText(baseContext, "Nie powiodło się", Toast.LENGTH_SHORT).show()
-                                    labelka.text ="";
-                                }
-                            }else{
-                                runOnUiThread{
-                                    Toast.makeText(baseContext, "Status pakunku zmieniono dla: \n$skan", Toast.LENGTH_SHORT).show()
-                                    labelka.text ="";
+                            lifecycleScope.launch {
+                                if(db.executeUpdate(query)==0){
+                                    runOnUiThread{
+                                        Toast.makeText(baseContext, "Nie powiodło się", Toast.LENGTH_SHORT).show()
+                                        labelka.text ="";
+                                    }
+                                }else{
+                                    runOnUiThread{
+                                        Toast.makeText(baseContext, "Status pakunku zmieniono dla: \n$skan", Toast.LENGTH_SHORT).show()
+                                        labelka.text ="";
 
+                                    }
                                 }
                             }
+
                             finish()
                         }
-                        ///TODO przetestuj sql przed odpalaniem, zrobić ladunke trzeba
+
                         //Rozpoczenie rozladunku
                         1 ->{
-//                            val query:String = "UPDATE dbo.Paczki SET Status='Przyjęto na Magazyn' WHERE Id_Paczki = ${skan};"
-//                            if(db.executeUpdate(query)==0){
-//                                zakolejkowane.add(skan.toInt())
-//                                var licznik = licznik_kolejka.text.toString().toInt()+1
-//                                licznik_kolejka.setText((licznik))
-//                            }else{
-//                                zaladowano.setText( zaladowano.text.toString().toInt()+1)
+                            val query:String = "UPDATE dbo.Paczki SET Status='Na Magazynie' WHERE Id_Paczki = ${skan};"
+                            lifecycleScope.launch {
+                                if(db.executeUpdate(query)==0){
+                                    runOnUiThread{
+                                        Toast.makeText(baseContext, "Nie powiodło się", Toast.LENGTH_SHORT).show()
+                                        labelka.text ="";
+                                    }
+                                }else{
+                                    runOnUiThread{
+                                        Toast.makeText(baseContext, "Status pakunku zmieniono dla: \n$skan", Toast.LENGTH_SHORT).show()
+                                        labelka.text ="";
+
+                                    }
+                                }
+                            }
+                            //jak nie ma ladunku otwartego
+                            //jak mi się będzie chciało poprawnie zroibć tabele ładunków
+//                            if(load.getID()==-1){
+//                                lifecycleScope.launch {
+//                                    val checkQuery:String ="select Id_Ladunku from dbo.Paczka_Ladunek where Id_Paczki = ${skan}"
+//                                    val result = db.executeQuery(checkQuery)
+//                                    if(result.isNullOrEmpty()){
+//                                        //wyswietlamy ostrzerzenie
+//                                        runOnUiThread{
+//                                            Toast.makeText(baseContext, "Paczka ta nie należy do żadnego ładunku", Toast.LENGTH_SHORT).show()
+//                                            labelka.text ="";
+//                                        }
+//                                    }else{
+//                                        //otwieramy ładunke
+//                                        load.setCurrentLoad(result.get(0).get("Id_Ladunku").toString().toInt())
+//                                        load.addScan(skan.toInt())
+//                                        val temp = zaladowano.text.toString().toInt()
+//                                        zaladowano.setText( (temp+1).toString())
+//                                        runOnUiThread{
+//                                            Toast.makeText(baseContext, "Rozpoczęto rozładunek", Toast.LENGTH_SHORT).show()
+//                                            labelka.text ="";
+//                                        }
+//                                    }
+//                                }
+//
+//                            } else{
+////                            val query:String = "UPDATE dbo.Paczki SET Status='Przyjęto na Magazyn' WHERE Id_Paczki = ${skan};"
+////                            if(db.executeUpdate(query)==0){
+////                                zakolejkowane.add(skan.toInt())
+////                                var licznik = licznik_kolejka.text.toString().toInt()+1
+////                                licznik_kolejka.setText((licznik))
+////                            }else{
+////                                zaladowano.setText( zaladowano.text.toString().toInt()+1)
+////                                zakolejkowane.forEach { row->
+////                                    val query:String = "UPDATE dbo.Paczki SET Status='Przyjęto na Magazyn' WHERE Id_Paczki = ${row};"
+////                                    db.executeUpdate(query)
+////                                    zaladowano.setText( zaladowano.text.toString().toInt()-1)
+////                                }
+////                            }
+//                                val spisPaczek:List<Int> = load.getParcels()
+//                                if(spisPaczek.contains(skan.toInt())&&!load.getSkanned().contains(skan.toInt())){
+//
+//                                }
 //                            }
+
                         }
                         //Zaladunke
                         0->{
-                            //val query:String = "UPDATE dbo.Paczki SET czyZniszczona=1 WHERE Id_Paczki = ${skan};"
+                            //jak nie ma ladunku otwartego
+                            if(load.getID()==-1){
+                                val inte = Intent(this,LoadCreationActivity::class.java)
+                                val queryCheck = "Select Id_Ladunku from dbo.Paczka_Ladunek where Id_Paczki=${skan} "
+                                lifecycleScope.launch {
+                                    val result = db.executeQuery(queryCheck)
+                                    if(result.isNullOrEmpty()){
+                                        inte.putExtra("skan",skan.toInt())
+                                        inte.putExtra("tworzenie",1)
+                                        ladunek.add(skan.toInt())
+                                        val temp = zaladowano.text.toString().toInt()
+                                        zaladowano.setText( (temp+ladunek.size).toString())
+                                        startActivity(inte)
+                                    }else{
+                                     load.setCurrentLoad(result.get(0).get("Id_Ladunku").toString().toInt())
+                                        val temp = zaladowano.text.toString().toInt()
+                                        ladunek.add(skan.toInt())
+                                        ladunek.addAll(load.getParcels())
+                                        zaladowano.setText( (temp+ladunek.size).toString())
+                                        runOnUiThread {
+                                            labelka.text ="";
+                                        }
+                                    }
+                                }
+
+                            }else {
+                                licznik_kolejka.text = load.getID().toString()
+                                if(ladunek.contains(skan.toInt())){
+                                    runOnUiThread {
+                                        Toast.makeText(baseContext, "Już skanowane", Toast.LENGTH_SHORT).show()
+                                        labelka.text ="";
+                                    }
+                                }else{
+
+                                lifecycleScope.launch {
+
+                                val query: String =
+                                    "UPDATE dbo.Paczki SET Status='Załadowano' WHERE Id_Paczki = ${skan};"
+                                if (db.executeUpdate(query) == 0) {
+                                    runOnUiThread {
+                                        Toast.makeText(baseContext, "Paczka została usunięta", Toast.LENGTH_SHORT).show()
+                                        labelka.text ="";
+                                    }
+//                                    val query0: String = "INSERT into Paczka_Ladunek (Id_Ladunku,Id_Paczki)values(${load.getID()},${skan})"
+//                                    val re = db.executeUpdate(query0)
+//                                    zakolejkowane.add(skan.toInt())
+//                                    val temp = zaladowano.text.toString().toInt()
+//                                    zaladowano.setText( (temp+1).toString())
+                                } else {
+                                    val temp = zaladowano.text.toString().toInt()
+                                    zaladowano.setText( (temp+1).toString())
+                                    val query0: String = "INSERT into Paczka_Ladunek (Id_Ladunku,Id_Paczki)values(${load.getID()},${skan})"
+                                    val re = db.executeUpdate(query0)
+                                    ladunek.add(skan.toInt())
+                                    zakolejkowane.forEach { row ->
+                                        val query2: String = "UPDATE dbo.Paczki SET Status='Załadowano' WHERE Id_Paczki = ${row};"
+                                        val query3: String = "INSERT into Paczka_Ladunek (Id_Ladunku,Id_Paczki)values(${load.getID()},${row})"
+                                        db.executeUpdate(query3)
+                                        db.executeUpdate(query2)
+                                        val temp = zaladowano.text.toString().toInt()
+                                        zaladowano.setText( (temp-1).toString())
+                                    }
+                                }
+                                    runOnUiThread {
+                                        labelka.text ="";
+                                    }
+                                }
+                                }
+                            }
                         }
                     }
-                }
+
             }
 
         }

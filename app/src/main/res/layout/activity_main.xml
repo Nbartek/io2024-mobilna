@@ -88,7 +88,7 @@
         android:layout_height="23dp"
         android:layout_marginTop="7dp"
         android:layout_marginEnd="20dp"
-        android:text="@string/licznik_kolejka"
+        android:text="Id Ładunku"
         android:textAlignment="textEnd"
         android:textColor="@color/niebieski"
         app:layout_constraintBottom_toBottomOf="parent"
