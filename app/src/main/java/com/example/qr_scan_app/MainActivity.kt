@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.lifecycleScope
@@ -20,6 +21,8 @@ class MainActivity : ComponentActivity() {
         val button_login = findViewById<Button>(R.id.login)
         var login_text:String;
         var password_text:String
+        val progress = findViewById<ProgressBar>(R.id.progressBar)
+        progress.visibility = View.INVISIBLE
         val e_login = findViewById<TextView>(R.id.error_login)
         val e_password = findViewById<TextView>(R.id.error_password)
         val e_connect = findViewById<TextView>(R.id.login_failed)
@@ -42,6 +45,8 @@ class MainActivity : ComponentActivity() {
                 e_connect.setTextColor(getColor(R.color.jasny_niebieski))
             }
             else{
+                progress.visibility = View.VISIBLE
+                //progress.setProgress()
 //                Do testów
                  val db = DatabaseHelper("stebat10","Stebat@10");
 //                val db = DatabaseHelper(login_text,password_text)
