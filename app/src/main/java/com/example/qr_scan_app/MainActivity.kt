@@ -57,6 +57,7 @@ class MainActivity : ComponentActivity() {
                         e_password.setTextColor(getColor(R.color.jasny_niebieski))
                         e_login.setTextColor(getColor(R.color.jasny_niebieski))
                         e_connect.setTextColor(getColor(R.color.czerwony_blad))
+                        progress.visibility = View.INVISIBLE
                     }
                 }
 

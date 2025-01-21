@@ -31,6 +31,7 @@ class MenuActivity : AppCompatActivity() {
         val btn_wylog = findViewById<Button>(R.id.wylog)
         val btn_podglad = findViewById<Button>(R.id.podglad)
         val infoId = findViewById<TextView>(R.id.ladunekId)
+        val reset = findViewById<Button>(R.id.button)
         var inte = Intent(this,SkanerActivity::class.java)
 
 
@@ -66,11 +67,18 @@ class MenuActivity : AppCompatActivity() {
             inte.putExtra("ladunek",1)
             startActivity(inte)
         }
+        reset.setOnClickListener {
+            CurrentLoad.clear()
+        }
         val timer = object : CountDownTimer(3600000, 1000) { // 100000 seconds, tick every 1 second
             override fun onTick(millisUntilFinished: Long) {
                 // Update the UI with the remaining time
                 if(CurrentLoad.getID()!=-1){
+                    reset.visibility =View.VISIBLE
                     infoId.text = "Ładunek numer: ${CurrentLoad.getID()}"
+                }else{
+                    reset.visibility = View.GONE
+                    infoId.text = getString(R.string.infoLadunek)
                 }
             }
 

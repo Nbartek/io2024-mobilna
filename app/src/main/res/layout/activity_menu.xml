@@ -61,20 +61,36 @@
             android:background="@color/niebieski"
             android:text="@string/wer" />
 
-        <TextView
-            android:id="@+id/ladunekId"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textSize="18sp"
-            android:textColor="@color/ciemno_niebieski"
-            android:text="@string/infoLadunek" />
+            android:layout_height="63dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button"
+                android:layout_marginTop="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"
+                android:background="@color/ciemno_niebieski"
+                android:text="Zmień Ładunek" />
+
+            <TextView
+                android:id="@+id/ladunekId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/infoLadunek"
+                android:textColor="@color/ciemno_niebieski"
+                android:textSize="18sp" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/wylog"
             android:layout_marginBottom="20dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="35dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/czerwony_blad"
