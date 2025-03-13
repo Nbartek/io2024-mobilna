@@ -17,5 +17,6 @@ Small scale postal It solution for sending parcels, administrating the postal wa
  - Some basic operations on database
  - Simple ui/ux interface
 
-### Considerations( to explain some controversial aspects of this project
-...not finished
+### Considerations (to explain some controversial aspects of this project)
+ - Because of an error when using microsoft azure drivers for java i had to improvise and use the outdated JDBC drivers. That is the reason that i do not use any api's for database connection, and why my sql code is hardcoded.
+ - The architecture is Client - Database adn it may seem uncommon, but there was some thought to it. The idea for it was that, because this app is meant to be used in local, hermetic environment, it should trive to achive best connection speed. In one warehouse there should be about 100 used scanners at one moment. Creating middle-man would clog the server side and made app feel sluggish
